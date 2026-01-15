@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-3xl font-bold text-gray-800 mb-6">Add New Student</h2>
+
+<form action="/add-student" method="POST" 
+      class="bg-white shadow-xl p-6 rounded-xl max-w-xl">
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <input name="Gender" placeholder="Gender"
+               class="border p-2 rounded-lg" required>
+
+        <input name="Race" placeholder="Race"
+               class="border p-2 rounded-lg" required>
+
+        <input name="ParentalEducation" placeholder="Parent Education"
+               class="border p-2 rounded-lg col-span-2" required>
+
+        <input type="number" name="MathScore" placeholder="Math Score"
+               class="border p-2 rounded-lg" required>
+
+        <input type="number" name="ReadingScore" placeholder="Reading Score"
+               class="border p-2 rounded-lg" required>
+
+        <input type="number" name="WritingScore" placeholder="Writing Score"
+               class="border p-2 rounded-lg" required>
+    </div>
+
+    <button class="mt-5 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+        Submit
+    </button>
+</form>
+
+{% endblock %}

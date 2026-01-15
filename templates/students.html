@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Records</title>
+    <style>
+        body { font-family: Arial; padding:20px; background:#f9f9f9; }
+        table { width:100%; border-collapse:collapse; margin-top:20px; }
+        th, td { padding:10px; border:1px solid #ccc; text-align:center; }
+        input, select { padding:6px; margin:4px; }
+        button { padding:7px 14px; background:#007bff; color:white; border:none; }
+        button:hover { background:#0056b3; cursor:pointer; }
+        .delete { background:red !important; }
+        .delete:hover { background:darkred !important; }
+    </style>
+</head>
+<body>
+
+<h2>Student Marks Management</h2>
+
+<!-- ADD/EDIT FORM -->
+<div>
+    <input id="StudentID" type="hidden">
+
+    <input id="Name" placeholder="Name">
+    <input id="Semester" type="number" placeholder="Semester">
+    <input id="Subject" placeholder="Subject">
+    <input id="Marks" type="number" placeholder="Marks">
+    <input id="TotalMarks" type="number" placeholder="Total Marks">
+
+    <button onclick="saveStudent()">Save</button>
+</div>
+
+<!-- TABLE -->
+<table id="studentsTable">
+    <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>Semester</th><th>Subject</th>
+            <th>Marks</th><th>Total</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+loadStudents();
+
+// LOAD ALL STUDENTS
+function loadStudents(){
+    fetch("/api/students")
+    .then(res=>res.json())
+    .then(data=>{
+        let rows="";
+        data.forEach(s=>{
+            rows += `
+                <tr>
+                    <td>${s.StudentID}</td>
+                    <td>${s.Name}</td>
+                    <td>${s.Semester}</td>
+                    <td>${s.Subject}</td>
+                    <td>${s.Marks}</td>
+                    <td>${s.TotalMarks}</td>
+                    <td>
+                        <button onclick="edit(${s.StudentID}, '${s.Name}', ${s.Semester}, '${s.Subject}', ${s.Marks}, ${s.TotalMarks})">Edit</button>
+                        <button class="delete" onclick="del(${s.StudentID})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+        document.querySelector("#studentsTable tbody").innerHTML = rows;
+    });
+}
+
+// EDIT
+function edit(id, name, sem, subject, marks, total){
+    document.getElementById("StudentID").value = id;
+    Name.value = name;
+    Semester.value = sem;
+    Subject.value = subject;
+    Marks.value = marks;
+    TotalMarks.value = total;
+}
+
+// ADD OR UPDATE
+function saveStudent(){
+    let id = StudentID.value;
+    let data = {
+        Name: Name.value,
+        Semester: Number(Semester.value),
+        Subject: Subject.value,
+        Marks: Number(Marks.value),
+        TotalMarks: Number(TotalMarks.value)
+    };
+
+    if(id){
+        fetch("/api/students/" + id, {
+            method:"PUT",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify(data)
+        }).then(()=>{ loadStudents(); clearForm(); });
+    } else {
+        fetch("/api/students", {
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify(data)
+        }).then(()=>{ loadStudents(); clearForm(); });
+    }
+}
+
+// DELETE
+function del(id){
+    fetch("/api/students/" + id, { method:"DELETE" })
+    .then(()=> loadStudents());
+}
+
+// CLEAR FORM
+function clearForm(){
+    StudentID.value="";
+    Name.value="";
+    Semester.value="";
+    Subject.value="";
+    Marks.value="";
+    TotalMarks.value="";
+}
+</script>
+
+</body>
+</html>

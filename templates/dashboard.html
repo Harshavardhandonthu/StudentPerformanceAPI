@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            background:#eef2f3; 
+            padding:20px; 
+        }
+        .topbar {
+            display:flex;
+            justify-content: space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+        .logout-btn {
+            background:red;
+            color:white;
+            border:none;
+            padding:8px 14px;
+            border-radius:4px;
+            cursor:pointer;
+        }
+        .logout-btn:hover {
+            background:darkred;
+        }
+        .card {
+            background:white;
+            padding:20px;
+            margin:10px;
+            border-radius:6px;
+            box-shadow:0 0 10px #ccc;
+            display:inline-block;
+            width:250px;
+            text-align:center;
+        }
+        .card button, .card a {
+            margin-top:10px;
+            padding:10px;
+            display:block;
+            width:100%;
+            border:none;
+            background:#007bff;
+            color:white;
+            border-radius:5px;
+            text-decoration:none;
+            text-align:center;
+        }
+        .card button:hover, .card a:hover {
+            background:#0056b3;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h2>Student Performance Dashboard</h2>
+    <button class="logout-btn" onclick="window.location='/logout'">Logout</button>
+</div>
+
+<!-- CARDS -->
+<div class="card">
+    <h3>View Student Records</h3>
+    <a href="/students-page">Open →</a>
+</div>
+
+<div class="card">
+    <h3>Add New Student</h3>
+    <a href="/students-page">Add →</a>
+</div>
+
+</body>
+</html>
